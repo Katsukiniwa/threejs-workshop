@@ -1,10 +1,10 @@
-import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer';
-import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
-import { Scene } from 'three/src/scenes/Scene';
-import { PointLight } from 'three/src/lights/PointLight';
-import { BoxGeometry } from 'three/src/geometries/BoxGeometry';
-import { MeshLambertMaterial } from 'three/src/materials/MeshLambertMaterial';
-import { Mesh } from 'three/src/objects/Mesh';
+import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
+import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
+import { Scene } from "three/src/scenes/Scene";
+import { PointLight } from "three/src/lights/PointLight";
+import { BoxGeometry } from "three/src/geometries/BoxGeometry";
+import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial";
+import { Mesh } from "three/src/objects/Mesh";
 
 export default class Canvas {
   constructor() {
@@ -17,7 +17,7 @@ export default class Canvas {
     /**
      * create renderer
      */
-    this.renderer = new WebGLRenderer({alpha: true });
+    this.renderer = new WebGLRenderer({ alpha: true });
 
     /**
      * render size
@@ -76,13 +76,38 @@ export default class Canvas {
      * create mesh from geometry and material
      */
     this.mesh = new Mesh(geo, material);
-    this.mesh.rotation.x = Math.PI / 6
-    this.mesh.rotation.y = Math.PI / 6
+    this.mesh.rotation.x = Math.PI / 6;
+    this.mesh.rotation.y = Math.PI / 6;
 
     /**
      * add mesh to scene
      */
     this.scene.add(this.mesh);
+
+    /**
+     * render on screen
+     */
+    this.render();
+  }
+
+  render() {
+    /**
+     * require next frame
+     */
+    requestAnimationFrame(() => {
+      this.render();
+    });
+
+    /**
+     * convert from milliseconds to seconds
+     */
+    const sec = performance.now() / 1000;
+
+    /**
+     * rotate 45 radian per second
+     */
+    this.mesh.rotation.x = sec * (Math.PI / 4);
+    this.mesh.rotation.y = sec * (Math.PI / 4);
 
     /**
      * render on screen
